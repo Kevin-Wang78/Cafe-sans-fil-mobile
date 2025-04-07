@@ -369,11 +369,16 @@ export default function ParametreScreen() {
               </View>
               <ScrollView style={styles.modalContent}>
               <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-                <Text style={styles.modal}>
-                  <Text> 
+                <Text style={styles.sectionText}>
+                  Besoin d'aide? Remplissez un formulaire ci-dessous et nous vous répondrons rapidement.
+                  
                     
 
 
+
+                  
+                  <Text>
+                   rajouter des informations sur le formulaire
 
                   </Text>
 
