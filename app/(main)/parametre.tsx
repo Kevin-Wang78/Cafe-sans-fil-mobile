@@ -24,13 +24,11 @@ import {
 } from "lucide-react-native";
 import COLORS from "@/constants/Colors";
 import SPACING from "@/constants/Spacing";
-import TYPOGRAPHY from "@/constants/Typography";
-import Divider from "@/components/common/Divider"; 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import TYPOGRAPHY from "@/constants/Typography";
+import Divider from "@/components/common/Divider";
 import AntDesign from '@expo/vector-icons/AntDesign';  // icone de Instagram
 import FontAwesome from '@expo/vector-icons/FontAwesome'; // icone de user-secret 
-
-
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -46,12 +44,10 @@ export default function ParametreScreen() {
   const { user } = useUser();
   const navigation = useRouter();
   const [notifModal,setNotifModal] = useState(false);
-  //const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [accountModalVisible, setAccountModalVisible] = useState(false);
   const [ordersModalVisible, setOrdersModalVisible] = useState(false);
-  const [preferencesModalVisible, setPreferencesModalVisible] = useState(false);
-
-  const [ modalVisible , setModalVisible] = useState(-1);
+  const [prferencesModalVisible, setPreferencesModalVisible] = useState(false);
   
 
   const orders = [
@@ -73,27 +69,7 @@ export default function ParametreScreen() {
     },
     // Add more orders as needed
   ];
-  const notifs = [
-    {
-      id: 1,
-      title: 'Titre notification #XXX',
-      content: 'Contenu de la notification',
-      status: true,
-    },
-    {
-      id: 2,
-      title: 'Titre notification #XXX',
-      content: 'Contenu de la notification',
-      status: false,
-    },
-    {
-      id: 3,
-      title: 'Titre notification #XXX',
-      content: 'Contenu de la notification',
-      status: false,
-    },
-    // Add more orders as needed
-  ]
+  
 
   const [profilePicture, setProfilePicture] = useState('https://placehold.jp/150x150.png');
   const pickImage = async () => {
@@ -159,7 +135,7 @@ export default function ParametreScreen() {
       icon: <Info size={26} strokeWidth={2.5} color={COLORS.black} />,
       title: "À propos",
       subtitle: "En savoir plus sur nous et notre mission.",
-      onPress: () => setModalVisible(1),
+      onPress: () => setModalVisible(true),
     },
   ];
 
@@ -243,14 +219,16 @@ export default function ParametreScreen() {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible == 1}
+          visible={accountModalVisible}
           onRequestClose={() => setAccountModalVisible(false)}
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               <View style={styles.modalHeader}>
                 <Text style={styles.modalTitle}>Mon compte</Text>
-                <Button title="Fermer et Sauvegarder" onPress={() => setAccountModalVisible(false)} />
+                <TouchableOpacity onPress={() => setAccountModalVisible(false)}>
+                  <AntDesign name="close" size={24} color={COLORS.black} />
+                </TouchableOpacity>
               </View>
               <View style={styles.modalContent}>
                 <TouchableOpacity onPress={pickImage}>
@@ -272,58 +250,94 @@ export default function ParametreScreen() {
         </Modal>
 
         <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>À propos</Text>
-                <Button title="Fermer" onPress={() => setModalVisible(false)} />
-              </View>
-              <ScrollView style={styles.modalContent}>
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-               <Text style={styles.modalText}>
-                <Text style={styles.boldText}>Bienvenue! {"\n"}</Text>
-                Avez-vous déjà rêvé d’utiliser une application mobile pour pouvoir commander un bon repas? 
-                C’est exactement ce qui a poussé notre équipe à créer une application de ce type. 
-                Notre club, du nom de CADUM, est justement à la charge de cela. Ce club vise à développer des applications mobiles pour améliorer la vie des étudiants des différentes universités. 
-                Si vous avez tendance à avoir le manque d'énergie de tout le temps commander de la nourriture, nous sommes justement là pour vous. Soyez la bienvenue!
-               </Text>
-               </View>
-
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-               <Text style={styles.clubText}>
-                <Text style={styles.boldText}>Club {"\n"}</Text>
-                L'idée de ce club est venue en hiver 2024. Les étudiants de l'Université de Montréal dans le programme d'informatique voulaient appliquer leurs connaissances acquises dans les cours d'informatique dans la vie réelle.
-                Pour cela, ils ont voulu créer un club sur le développement d'applications mobiles pour s'ouvrir à des technologies de pointe.
-                Grâce à cela, l'idée a été mise au point en automne 2024. À l'automne 2024, les étudiants ont décidé de développer une application mobile sur la commande de repas à partir des cafétérias de votre université.
-               </Text>
-              </View>
-
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-               <Text style={styles.socialText}>
-                <Text style={styles.boldText}>Réseaux sociaux {"\n"}</Text>
-                Comme toute autre compagnie, nous sommes aussi présents sur les réseaux sociaux. Là-bas, vous pouvez suivre toutes les nouvelles dont des activités et même des nouveautés sur l'application mobile en soi.
-                Les réseaux sociaux que nous sommes présents sont Instagram et Discord. Cependant, si vous voulez voir les nouveautés qui viennent de sortir, allez sur Discord. N'oubliez pas d'activer les notifications pour d'autres types de nouveautés.    <FontAwesome6 name="discord" size={24} color="black" style={{ marginTop: 10 }}/>
-               </Text>    
-              </View>
-
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:20, padding:10}}>
-               <Text style={styles.policyText}>
-                <Text style={styles.boldText}>Politiques et confidentalité {"\n"}</Text>
-                En termes de politique et de confidentalité, nous respectons la vie privée de chaque individu. Donc, les informations personnelles comme les mots de passe sont confidentielles. 
-                Aucun utilisateur peut avoir accès aux informations personnelles de d'autres utilisateurs et même chose avec les développeurs de l'application mobile. 
-                En cas de fuites de données ou de piratage de votre compte, veuillez nous contacter immédiatement.   <FontAwesome name="user-secret" size={24} color="black" />
-               </Text> 
-              </View>
-
-              </ScrollView>
-            </View>
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => setModalVisible(false)}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContainer}>
+      <View style={styles.modalHeader}>
+        <Text style={styles.modernModalTitle}>À propos</Text>
+        <TouchableOpacity onPress={() => setModalVisible(false)}>
+          <AntDesign name="close" size={24} color={COLORS.black} />
+        </TouchableOpacity>
+      </View>
+      
+      <ScrollView 
+        style={styles.modernModalContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.aboutSection}>
+          <View style={styles.sectionIcon}>
+            <Info size={24} color={COLORS.black} />
           </View>
-        </Modal>
+          <Text style={styles.sectionTitle}>Bienvenue!</Text>
+          <Text style={styles.sectionContent}>
+            Avez-vous déjà rêvé d'utiliser une application mobile pour pouvoir commander un bon repas? 
+            C'est exactement ce qui a poussé notre équipe à créer une application de ce type. 
+            Notre club, du nom de CADUM, est justement à la charge de cela. Ce club vise à développer des applications mobiles pour améliorer la vie des étudiants des différentes universités. 
+            Si vous avez tendance à avoir le manque d'énergie de tout le temps commander de la nourriture, nous sommes justement là pour vous. Soyez la bienvenue!
+          </Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.aboutSection}>
+          <View style={styles.sectionIcon}>
+            <FontAwesome name="users" size={22} color={COLORS.black} />
+          </View>
+          <Text style={styles.sectionTitle}>Club</Text>
+          <Text style={styles.sectionContent}>
+            L'idée de ce club est venue en hiver 2024. Les étudiants de l'Université de Montréal dans le programme d'informatique voulaient appliquer leurs connaissances acquises dans les cours d'informatique dans la vie réelle.
+            Pour cela, ils ont voulu créer un club sur le développement d'applications mobiles pour s'ouvrir à des technologies de pointe.
+            Grâce à cela, l'idée a été mise au point en automne 2024. À l'automne 2024, les étudiants ont décidé de développer une application mobile sur la commande de repas à partir des cafétérias de votre université.
+          </Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.aboutSection}>
+          <View style={styles.sectionIcon}>
+            <FontAwesome6 name="discord" size={22} color={COLORS.black} />
+          </View>
+          <Text style={styles.sectionTitle}>Réseaux sociaux</Text>
+          <Text style={styles.sectionContent}>
+            Comme toute autre compagnie, nous sommes aussi présents sur les réseaux sociaux. Là-bas, vous pouvez suivre toutes les nouvelles dont des activités et même des nouveautés sur l'application mobile en soi.
+            Les réseaux sociaux que nous sommes présents sont Instagram et Discord. Cependant, si vous voulez voir les nouveautés qui viennent de sortir, allez sur Discord. N'oubliez pas d'activer les notifications pour d'autres types de nouveautés.
+          </Text>
+          <View style={styles.socialIcons}>
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome6 name="discord" size={24} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <AntDesign name="instagram" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.aboutSection}>
+          <View style={styles.sectionIcon}>
+            <FontAwesome name="user-secret" size={22} color={COLORS.black} />
+          </View>
+          <Text style={styles.sectionTitle}>Politiques et confidentalité</Text>
+          <Text style={styles.sectionContent}>
+            En termes de politique et de confidentalité, nous respectons la vie privée de chaque individu. Donc, les informations personnelles comme les mots de passe sont confidentielles. 
+            Aucun utilisateur peut avoir accès aux informations personnelles de d'autres utilisateurs et même chose avec les développeurs de l'application mobile. 
+            En cas de fuites de données ou de piratage de votre compte, veuillez nous contacter immédiatement.
+          </Text>
+        </View>
+        
+        <View style={styles.footerSection}>
+          <Text style={styles.versionText}>Version 1.0.0</Text>
+          <Text style={styles.copyrightText}>© 2025 CADUM. Tous droits réservés.</Text>
+        </View>
+      </ScrollView>
+    </View>
+  </View>
+</Modal>
         
         
         <Modal
@@ -336,7 +350,9 @@ export default function ParametreScreen() {
             <View style={styles.modalContainer}>
               <View style={styles.modalHeader}>
                 <Text style={styles.modalTitle}>Mes Commandes</Text>
-                <Button title="Fermer" onPress={() => setOrdersModalVisible(false)} />
+                <TouchableOpacity onPress={() => setOrdersModalVisible(false)}>
+                  <AntDesign name="close" size={24} color={COLORS.black} />
+                </TouchableOpacity>
               </View>
               <View style={styles.modalContent}>
               {orders.map((order) => (
@@ -355,46 +371,6 @@ export default function ParametreScreen() {
           </View>
         </Modal>
 
-        <Modal                                                                                // ce code ne fonctionne pas, car il a un probleme (aide et support)
-          animationType="slide"                                                                // refaire tout ce modal
-          transparent={true}                                                                  
-          visible={ordersModalVisible}
-          onRequestClose={() => setPreferencesModalVisible(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalHeader}>    
-                <Text style={styles.modalTitle}>Aide et support</Text>
-                <Button title="Fermer" onPress={() => setPreferencesModalVisible(false)} />
-              </View>
-              <ScrollView style={styles.modalContent}>
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-                <Text style={styles.sectionText}>
-                  Besoin d'aide? Remplissez un formulaire ci-dessous et nous vous répondrons rapidement.
-                  
-                    
-
-
-
-                  
-                  <Text>
-                   rajouter des informations sur le formulaire
-
-                  </Text>
-
-                </Text>
-              </View>
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-
-
-              </View>
-              <View style={{borderColor:"black", borderWidth:1, borderRadius:10, marginVertical:10, padding:10}}>
-                
-              </View> 
-              </ScrollView>
-            </View>
-          </View>
-        </Modal>
         
       </SafeAreaView>
     </ScrollableLayout></>
@@ -535,18 +511,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  textContainer: {
-    margin: 10,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 10,
-    marginVertical: 10,
-  },
   modalText: {
-    fontSize: 17, // taille de texte plus grande
-    fontFamily: 'Arial', // police Calibri
-    textAlign: 'justify',
-    padding: 10,
+    fontSize: 16,
+    lineHeight: 24,
   },
   input: {
     height: 40,
@@ -604,6 +571,7 @@ const styles = StyleSheet.create({
   orderPrice: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333',
   },
   clubText: {
     fontSize: 17, // taille de texte plus grande
@@ -631,4 +599,92 @@ const styles = StyleSheet.create({
     lineHeight: 45,
     color: '#000033', // peut etre repeter cette couleur dans les autres parties
   },
+  textContainer: {
+    margin: 10,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius:10,
+  },
+  // Additional styles for the modern modal
+modernModalContainer: {
+  width: '100%',
+  maxHeight: '90%',
+  backgroundColor: '#fff',
+  borderRadius: 20,
+  overflow: 'hidden',
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 10,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 15,
+  elevation: 10,
+},
+modernModalTitle: {
+  fontSize: 22,
+  fontWeight: '700',
+  color: COLORS.black,
+},
+modernModalContent: {
+  padding: 20,
+},
+aboutSection: {
+  marginBottom: 25,
+},
+sectionTitle: {
+  fontSize: 18,
+  fontWeight: '600',
+  marginBottom: 12,
+  color: COLORS.black,
+},
+sectionContent: {
+  fontSize: 15,
+  lineHeight: 24,
+  color: '#555',
+},
+sectionIcon: {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  backgroundColor: 'rgba(0, 87, 172, 0.1)', // UdeM blue with transparency
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: 15,
+},
+divider: {
+  height: 1,
+  backgroundColor: '#f0f0f0',
+  marginVertical: 20,
+},
+socialIcons: {
+  flexDirection: 'row',
+  marginTop: 15,
+  gap: 15,
+  justifyContent: 'center',
+  
+},
+socialButton: {
+  width: 45,
+  height: 45,
+  borderRadius: 22.5,
+  backgroundColor: 'rgba(0, 87, 172, 0.1)', // UdeM blue with transparency
+  
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+footerSection: {
+  marginTop: 20,
+  alignItems: 'center',
+  paddingVertical: 15,
+},
+versionText: {
+  fontSize: 14,
+  color: '#999',
+  marginBottom: 5,
+},
+copyrightText: {
+  fontSize: 12,
+  color: '#999',
+},
 });
